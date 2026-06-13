@@ -1,0 +1,42 @@
+/* Vanilla/blank: Magento_Contact module CSS.
+   The contact page (/contact/, body.contact-index-index): blank's whole module
+   is the .form.contact WIDTH treatment; everything inside the form (the legend,
+   the field rhythm, the note, the Submit toolbar) is the lib forms /
+   actions-toolbar components, consumed as-is with no component token overrides (blank
+   styles them only through the same shared lib).
+
+   Ported from blank's Magento_Contact/web/css/source/_module.less against the
+   COMPILED pub/static/frontend/Magento/blank css:
+   - styles-m common: .form.contact { float: none; width: 50%; } under both
+     .column:not(.sidebar-main) and .column:not(.sidebar-additional)
+   - styles-m mobile-only (max-width 767px): width: 100%
+   - styles-l desktop (min-width 768px): .column:not(.sidebar-additional)
+     .form.contact { min-width: 600px; }
+   The float: none in blank is a guard against .abs-margin-for-forms-desktop
+   era float layouts; we ship no floats, so it is dropped. */
+@layer modules {
+
+  /* The form is half the column; the two :not() variants are blank's belt and
+     braces for either sidebar being present (contact is 1column by default, so
+     both match the same element). */
+  .contact-index-index .column:not(.sidebar-main) .form.contact,
+  .contact-index-index .column:not(.sidebar-additional) .form.contact {
+    width: 50%;
+  }
+
+  /* Mobile: full width. */
+  @media (--screen-m-max) {
+    .contact-index-index .column:not(.sidebar-main) .form.contact,
+    .contact-index-index .column:not(.sidebar-additional) .form.contact {
+      width: 100%;
+    }
+  }
+
+  /* Desktop: never narrower than 600px, so 50% only bites on wide columns. */
+  @media (--screen-m) {
+    .contact-index-index .column:not(.sidebar-additional) .form.contact {
+      min-width: 60rem; /* 600px */
+    }
+  }
+
+}
